@@ -17,6 +17,6 @@ git config --global user.name "v3locide"
 mkdir backend
 cd backend
 forge init --force
-rm -r script/* src/* test/*
+rm -rf script/* src/* test/*
 # Install Openzeppeling
 forge install OpenZeppelin/openzeppelin-contracts --no-commit
