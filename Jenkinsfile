@@ -15,7 +15,7 @@ pipeline{
         stage("Setup environment"){
             steps{
                 sh "curl -L https://foundry.paradigm.xyz | bash"
-                sh "./home/vagrant/.bashrc"
+                //sh "./home/vagrant/.bashrc"
                 sh "foundryup"
                 sh "cd backend/"
                 sh "npm install --save-dev solhint"
