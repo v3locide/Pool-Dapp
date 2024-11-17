@@ -3,9 +3,9 @@ pipeline{
     tools {
         nodejs "NodeJS-22.11.0"
     }
-    environment{
+    // environment{
         
-    }
+    // }
     stages{
         stage("Fetch"){
             steps{
