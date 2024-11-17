@@ -1,5 +1,10 @@
 pipeline{
-    agent any
+    agent {
+        node {
+            label 'master'
+            customWorkspace "${env.WORKSPACE}/backend"
+        }
+    }
     tools {
         nodejs "NodeJS-22.11.0"
     }
