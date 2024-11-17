@@ -15,8 +15,8 @@ pipeline{
         stage("Setup environment"){
             steps{
                 sh "curl -L https://foundry.paradigm.xyz | bash"
-                //sh "./home/vagrant/.bashrc"
-                sh "foundryup"
+                sh 'bash -l -c "source /var/lib/jenkins/.bashrc && foundryup"'
+                //sh "foundryup"
                 sh "cd backend/"
                 sh "npm install --save-dev solhint"
                 sh "forge install OpenZeppelin/openzeppelin-contracts --no-commit"
