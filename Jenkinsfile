@@ -12,18 +12,20 @@ pipeline{
                 git branch: 'main', url: "https://github.com/v3locide/Pool-Dapp.git"
             }
         }
-        stage("Setup environment"){
-            steps{
-                dir("${env.WORKSPACE}/backend") {
-                    sh '''
-                    pwd
-                    curl -L https://foundry.paradigm.xyz | bash
-                    . /var/lib/jenkins/.bashrc && foundryup
-                    forge install OpenZeppelin/openzeppelin-contracts --no-commit
-                    '''
-                }
-            }
-        }
+        // stage("Setup environment"){
+        //     steps{
+        //         dir("${env.WORKSPACE}/backend") {
+        //             sh "ls -a /var/lib/jenkins/.foundry"
+        //             sh '''
+        //             pwd
+        //             curl -L https://foundry.paradigm.xyz | bash
+        //             . /var/lib/jenkins/.bashrc && foundryup
+        //             forge install OpenZeppelin/openzeppelin-contracts --no-commit
+        //             '''
+        //             sh "forge"
+        //         }
+        //     }
+        // }
         // stage("Lint tests") {
         //     steps{
         //         sh "solhint src/*.sol"
