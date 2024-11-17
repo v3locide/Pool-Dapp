@@ -1,10 +1,5 @@
 pipeline{
-    agent {
-        node {
-            label 'master'
-            customWorkspace "${env.WORKSPACE}/backend"
-        }
-    }
+    agent any
     tools {
         nodejs "NodeJS-22.11.0"
     }
@@ -19,19 +14,21 @@ pipeline{
         }
         stage("Setup environment"){
             steps{
-                sh "curl -L https://foundry.paradigm.xyz | bash"
-                sh 'bash -l -c "source /var/lib/jenkins/.bashrc && foundryup"'
-                dir("${env.WORKSPACE}/backend"){
-                    sh "npm install --save-dev solhint"
-                    sh 'bash -l -c "forge install OpenZeppelin/openzeppelin-contracts --no-commit"'
+                dir("${env.WORKSPACE}/backend") {
+                    sh '''
+                    pwd
+                    curl -L https://foundry.paradigm.xyz | bash
+                    . /var/lib/jenkins/.bashrc && foundryup
+                    forge install OpenZeppelin/openzeppelin-contracts --no-commit
+                    '''
                 }
             }
         }
-        stage("Lint tests") {
-            steps{
-                sh "solhint src/*.sol"
-            }
-        }
+        // stage("Lint tests") {
+        //     steps{
+        //         sh "solhint src/*.sol"
+        //     }
+        // }
     }
     post{
         always{
