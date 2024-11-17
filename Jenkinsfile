@@ -17,7 +17,7 @@ pipeline{
                 script {
                     // Setting a custom workspace for this stage
                     ws("${env.WORKSPACE}/backend") {
-                        echo "Using a custom workspace at: ${env.WORKSPACE}/backend"
+                        echo "Using a custom workspace at: ${env.WORKSPACE}"
                     }
                 }
             }
