@@ -140,12 +140,82 @@ contract PoolTest is Test {
 
     // Test Refund
     function test_RevertWhen_CollectNotFinished() public {
-
         // Transform the custom error in the Pool contract to a signature readable from solidity.
         bytes4 selector = bytes4(keccak256("CollectNotFinished()")); // signature = fa3ac56b.
         vm.expectRevert(abi.encodeWithSelector(selector));
 
         vm.prank(addr1);
         pool.refund();
+    }
+
+    function test_RevertWhen_GoalAlreadyReached() public {
+        vm.prank(addr1);
+        vm.deal(addr1, 6 ether);
+        pool.contribute{value: 6 ether}();
+
+        vm.prank(addr2);
+        vm.deal(addr2, 5 ether);
+        pool.contribute{value: 5 ether}();
+
+        vm.warp(pool.end() + 3600);
+
+        // Transform the custom error in the Pool contract to a signature readable from solidity.
+        bytes4 selector = bytes4(keccak256("GoalAlreadyReached()")); // signature = fa3ac56b.
+        vm.expectRevert(abi.encodeWithSelector(selector));
+
+        pool.refund();
+    }
+
+    function test_RevertWhen_NoContribution() public {
+        vm.prank(addr1);
+        vm.deal(addr1, 6 ether);
+        pool.contribute{value: 6 ether}();
+
+        vm.prank(addr2);
+        vm.deal(addr2, 1 ether);
+        pool.contribute{value: 1 ether}();
+
+        vm.warp(pool.end() + 3600);
+
+        // Transform the custom error in the Pool contract to a signature readable from solidity.
+        bytes4 selector = bytes4(keccak256("NoContribution()")); // signature = fa3ac56b.
+        vm.expectRevert(abi.encodeWithSelector(selector));
+
+        vm.prank(addr3);
+        pool.refund();
+    }
+
+    function test_RevertWhen_RefundFailedToSendEther() public {
+        vm.deal(address(this), 2 ether);
+        pool.contribute{value: 2 ether}();
+
+        vm.warp(pool.end() + 3600);
+
+        // Transform the custom error in the Pool contract to a signature readable from solidity.
+        bytes4 selector = bytes4(keccak256("FailedToSendEther()")); // signature = fa3ac56b.
+        vm.expectRevert(abi.encodeWithSelector(selector));
+
+        pool.refund();
+    }
+
+    function test_refund() public {
+        vm.prank(addr1);
+        vm.deal(addr1, 6 ether);
+        pool.contribute{value: 6 ether}();
+
+        vm.prank(addr2);
+        vm.deal(addr2, 1 ether);
+        pool.contribute{value: 1 ether}();
+
+        vm.warp(pool.end() + 3600);
+
+        // Get addr2 balance before refund
+        uint256 balanceBeforeRefund = addr2.balance;
+
+        vm.prank(addr2);
+        pool.refund();
+
+        uint256 balanceAfterRefund = addr2.balance;
+        assertEq(balanceBeforeRefund + 1 ether, balanceAfterRefund);
     }
 }
