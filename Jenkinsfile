@@ -25,10 +25,12 @@ pipeline{
         stage("Setup environment"){
             steps{
                 script {
-                sh "ls && curl -L https://foundry.paradigm.xyz | bash"
-                sh 'bash -l -c "source /var/lib/jenkins/.bashrc && foundryup"'
-                sh "npm install --save-dev solhint"
-                sh 'bash -l -c "forge install OpenZeppelin/openzeppelin-contracts --no-commit"'
+                    sh "curl -L https://foundry.paradigm.xyz | bash"
+                    sh 'bash -l -c "source /var/lib/jenkins/.bashrc && foundryup"'
+                    ws("${env.WORKSPACE}/backend") {
+                        sh "ls && npm install --save-dev solhint"
+                        sh 'bash -l -c "forge install OpenZeppelin/openzeppelin-contracts --no-commit"'
+                    }
                 }
             }
         }
