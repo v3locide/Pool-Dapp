@@ -13,6 +13,8 @@ error FailedToSendEther();
 error NoContribution();
 error NotEnoughFunds();
 
+
+
 contract Pool is Ownable {
     uint256 public end;
     uint256 public goal;
