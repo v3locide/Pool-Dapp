@@ -17,9 +17,15 @@ pipeline{
                 sh "curl -L https://foundry.paradigm.xyz | bash"
                 sh "source /home/vagrant/.bashrc"
                 sh "foundryup"
-                sh "npm install --save-dev solhint"
                 sh "cd backend/"
+                sh "npm install --save-dev solhint"
                 sh "forge install OpenZeppelin/openzeppelin-contracts --no-commit"
+            }
+        }
+        stage("Lint tests") {
+            steps{
+                sh "cd backend/"
+                sh "solhint src/*.sol"
             }
         }
     }
