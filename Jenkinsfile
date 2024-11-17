@@ -16,16 +16,13 @@ pipeline{
             steps{
                 sh "curl -L https://foundry.paradigm.xyz | bash"
                 sh 'bash -l -c "source /var/lib/jenkins/.bashrc && foundryup"'
-                //sh "foundryup"
-                sh "cd backend/"
-                sh "npm install --save-dev solhint"
-                sh "forge install OpenZeppelin/openzeppelin-contracts --no-commit"
+                sh "cd backend/ && npm install --save-dev solhint"
+                sh 'bash -l -c "cd backend/ && forge install OpenZeppelin/openzeppelin-contracts --no-commit"'
             }
         }
         stage("Lint tests") {
             steps{
-                sh "cd backend/"
-                sh "solhint src/*.sol"
+                sh "cd backend/ && solhint src/*.sol"
             }
         }
     }
