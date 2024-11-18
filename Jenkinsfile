@@ -4,7 +4,7 @@ pipeline{
         nodejs "NodeJS-22.11.0"
     }
     environment{
-        PATH = "/var/lib/jenkins/.foundry/bin/"
+        FOUNDRY_PATH = "/var/lib/jenkins/.foundry/bin/"
     }
     stages{
         stage("Fetch"){
@@ -15,7 +15,6 @@ pipeline{
         stage("Setup environment"){
             steps{
                 dir("${env.WORKSPACE}/backend") {
-                    sh "ls -a /var/lib/jenkins/.foundry"
                     sh '''
                     pwd
                     curl -L https://foundry.paradigm.xyz | bash
@@ -28,12 +27,16 @@ pipeline{
         }
         stage("Lint tests") {
             steps{
-                sh "npx solhint src/*.sol"
+                dir("${env.WORKSPACE}/backend") {
+                    sh "npx solhint src/*.sol"
+                }
             }
         }
         stage("Forge tests") {
             steps{
-                sh "${env.PATH}forge test -vvvvv"
+                dir("${env.WORKSPACE}/backend") {
+                    sh "${env.FOUNDRY_PATH}forge test -vvvvv"
+                }
             }
         }
     }
