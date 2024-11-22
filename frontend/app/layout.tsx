@@ -1,7 +1,6 @@
 "use client";
 import "@rainbow-me/rainbowkit/styles.css";
-import { Provider } from "@/components/ui/provider";
-
+import { ChakraProvider } from '@chakra-ui/react'
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
@@ -31,7 +30,10 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body>
         <WagmiConfig config={wagmiConfig}>
           <RainbowKitProvider chains={chains}>
-            <Provider>{children}</Provider>
+          <ChakraProvider>
+            {children}
+          </ChakraProvider>
+            
           </RainbowKitProvider>
         </WagmiConfig>
       </body>
