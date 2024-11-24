@@ -60,7 +60,7 @@ contract Pool is Ownable {
     function refund() external {
         if (block.timestamp < end) {
             revert CollectNotFinished();
-        }
+        } 
         if (totalCollected >= goal) {
             revert GoalAlreadyReached();
         }

@@ -14,10 +14,11 @@ import { readContract,watchContractEvent } from "@wagmi/core" // get goal ,end ,
 //Constants and Types
 import { contractAddress, abi } from "@/constants"
 import { parseEther } from "viem"
+import {ContributeProps} from "@/types"
 //info de contrat
 import { prepareWriteContract, writeContract, waitForTransaction } from "@wagmi/core"
 
-const Contribute = () => {
+const Contribute = ({getDatas}:ContributeProps) => {
 
     const toast = useToast()
     const [amount, setAmount] = useState<string>('')
@@ -40,6 +41,7 @@ const Contribute = () => {
                 hash: hash
             })
             setAmount(''); // default value  after submit 
+            await getDatas() // refresh the value
             toast({
                 title: 'Congratulations',
                 description: "Your contribution has been added.",
