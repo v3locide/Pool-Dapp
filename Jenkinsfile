@@ -39,11 +39,13 @@ pipeline{
                 }
             }
         }
+        stage("Build Docker Image") {
+            steps{
+
+            }
+        }
     }
     post{
-        always{
-            echo "========always========"
-        }
         success{
             echo "========pipeline executed successfully ========"
         }
