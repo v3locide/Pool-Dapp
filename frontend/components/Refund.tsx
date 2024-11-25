@@ -20,7 +20,7 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
 
     const toast = useToast()
 
-    const refund = async() => {
+    const refund = async () => {
         try {
             const { request } = await prepareWriteContract({
                 address: contractAddress,
@@ -40,7 +40,7 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
                 isClosable: true,
             })
         }
-        catch(e) {
+        catch (e) {
             toast({
                 title: 'Error',
                 description: "An error occured",
@@ -50,26 +50,32 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
             })
         }
     }
-
+    console.log('totalCollected' + totalCollected)
+    console.log('goal' + goal)
+    console.log('end' + end)
     return (
         <>
-            <Heading mt='2rem'>Refund</Heading>
+            <Heading mt="2rem">Refund</Heading>
             <Flex mt="1rem">
-                {totalCollected < goal && Math.floor(Date.now() / 1000) > parseInt(end) ? (
-                    <Button 
-                        colorScheme='red' 
-                        size='lg'
-                        width="100%"
-                        onClick={() => refund()}
-                    >
-                        Refund
-                    </Button>
+                {totalCollected !== undefined && end !== undefined ? (
+                    totalCollected < goal && Math.floor(Date.now() / 1000) > parseInt(end) ? (
+                        <Button
+                            colorScheme="red"
+                            size="lg"
+                            width="100%"
+                            onClick={() => refund()}
+                        >
+                            Refund
+                        </Button>
+                    ) : (
+                        <Text color="red">No refund available right now.</Text>
+                    )
                 ) : (
-                    <Text color='red'>No refund available right now.</Text>
+                    <Text color="red">No refund available right now.</Text>
                 )}
             </Flex>
         </>
-    )
+    );
 }
 
 export default Refund

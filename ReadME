@@ -1,0 +1,17 @@
+backend commands:
+
+curl -L https://foundry.paradigm.xyz | bash
+source /home/'username'/.bashrc
+foundryup
+forge install foundry-rs/forge-std --no-commit
+forge install OpenZeppelin/openzeppelin-contracts --no-commit 
+anvil
+forge script script/Deploy.s.sol:DeployScript --fork-url http://127.0.01:8545 --broadcast
+
+frontend commands:
+
+npm install --legacy-peer-deps
+npm run dev 
+or 
+npm run build 
+npm run start 
