@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anvil-deployment
+  labels:
+    app: anvil
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: anvil
+  template:
+    metadata:
+      labels:
+        app: anvil
+    spec:
+      containers:
+      - name: anvil-container
+        image: velocide/foundry # Local image
+        imagePullPolicy: Always # Use this to pull from local image cache
+        ports:
+        - containerPort: 8545 # Anvil default port
+        env:
+        - name: ANVIL_IP_ADDR
+          value: "0.0.0.0"
+        command: ["anvil"] # Add the custom command here

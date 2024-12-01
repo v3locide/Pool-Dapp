@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contract-deployment
+  labels:
+    app: contract
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: contract
+  template:
+    metadata:
+      labels:
+        app: contract
+    spec:
+      containers:
+      - name: contract-script-container
+        image: velocide/foundry:latest # docker hub image
+        imagePullPolicy: Always
+        command: ["forge", "script"] # Specify the command to run
+        args:
+          - "script/Deploy.s.sol:DeployScript"     # First argument to the command
+          - "--fork-url"
+          - "http://anvil-service:8545"            # Use service DNS name instead of localhost
+          - "--broadcast"                         # Broadcast flag
