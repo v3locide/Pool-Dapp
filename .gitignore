@@ -10,6 +10,8 @@
 # Docs
 **/docs/
 
+# openzeppelin libs
+**/lib
 
 # node_modules
 **/node_modules
