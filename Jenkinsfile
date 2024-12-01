@@ -6,7 +6,7 @@ pipeline{
     environment{
         FOUNDRY_PATH = "/var/lib/jenkins/.foundry/bin/"
         BACKEND_IMAGE_NAME = "velocide/foundry"
-        REGISTRY_CREDENTIALS = "docker-hub-creds"
+        registryCredential = "dockerhub_id"
     }
     stages{
         stage("Fetch"){
@@ -53,7 +53,7 @@ pipeline{
           steps{
             script {
               sh "echo pushing image to docker hub..."
-              docker.withRegistry( '', REGISTRY_CREDENTIALS ) {
+              docker.withRegistry( '', registryCredential ) {
                 dockerImage.push()
               }
             }
