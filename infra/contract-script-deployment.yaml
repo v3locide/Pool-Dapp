@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: contract-script-container
-        image: velocide/foundry:latest # docker hub image
+        image: velocide/foundry:${IMAGE_TAG} # docker hub image
         imagePullPolicy: Always
         command: ["forge", "script"] # Specify the command to run
         args:
