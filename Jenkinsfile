@@ -7,6 +7,7 @@ pipeline{
         FOUNDRY_PATH = "/var/lib/jenkins/.foundry/bin/"
         BACKEND_IMAGE_NAME = "velocide/foundry"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub_id"
+	IMAGE_TAG = "${BUILD_NUMBER}"
     }
     stages{
         stage("Fetch"){
@@ -45,7 +46,7 @@ pipeline{
         stage("Backend: Build Docker Image") {
             steps{
                 script {
-                    dockerImage = docker.build(BACKEND_IMAGE_NAME + ":$BUILD_NUMBER", "./backend/")
+                    dockerImage = docker.build(BACKEND_IMAGE_NAME + ":$IMAGE_TAG", "./backend/")
                 }
             }
         }
