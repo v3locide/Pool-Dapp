@@ -21,6 +21,7 @@ pipeline{
                     pwd
                     curl -L https://foundry.paradigm.xyz | bash
                     . /var/lib/jenkins/.bashrc && foundryup
+                    rm -rf lib
                     forge install OpenZeppelin/openzeppelin-contracts --no-commit
                     '''
                     sh "npm install --save-dev solhint"
