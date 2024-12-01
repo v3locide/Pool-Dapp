@@ -52,6 +52,7 @@ pipeline{
         stage('Backend: Push Backend Image') {
           steps{
             script {
+              sh "echo pushing image to docker hub..."
               docker.withRegistry( '', REGISTRY_CREDENTIALS ) {
                 dockerImage.push()
               }
