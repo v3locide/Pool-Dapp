@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: anvil-container
-        image: velocide/foundry # Local image
+        image: velocide/foundry:${IMAGE_TAG} # Local image
         imagePullPolicy: Always # Use this to pull from local image cache
         ports:
         - containerPort: 8545 # Anvil default port
