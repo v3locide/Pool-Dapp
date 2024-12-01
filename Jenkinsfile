@@ -6,7 +6,7 @@ pipeline{
     environment{
         FOUNDRY_PATH = "/var/lib/jenkins/.foundry/bin/"
         BACKEND_IMAGE_NAME = "velocide/foundry"
-        registryCredential = "dockerhub_id"
+        DOCKER_HUB_CREDENTIALS_ID = "dockerhub_id"
     }
     stages{
         stage("Fetch"){
@@ -45,19 +45,18 @@ pipeline{
         stage("Backend: Build Docker Image") {
             steps{
                 script {
-                    dockerImage = docker.build( BACKEND_IMAGE_NAME + ":$BUILD_NUMBER", "./backend/")
+                    dockerImage = docker.build(BACKEND_IMAGE_NAME + ":$BUILD_NUMBER", "./backend/")
                 }
             }
         }
-        stage('Backend: Push Backend Image') {
-          steps{
-            script {
-              sh "echo pushing image to docker hub..."
-              docker.withRegistry( '', registryCredential ) {
-                dockerImage.push()
-              }
+        stage('Push App Image') {
+            steps{
+                script {
+                    docker.withRegistry ('', DOCKER_HUB_CREDENTIALS_ID) {
+                        dockerImage.push()
+                    }
+                }              
             }
-          }
         }
     }
     post{
