@@ -53,7 +53,7 @@ pipeline{
             steps{
                 script {
                     docker.withRegistry ('', DOCKER_HUB_CREDENTIALS_ID) {
-                        dockerImage.push()
+                        echo "Successfully logged in to Docker Hub"
                     }
                 }              
             }
