@@ -20,6 +20,10 @@ import Progression from "./Progression";
 import Contribute from "./Contribute";
 import Contributors from "./Contributors";
 import Refund from "./Refund";
+import WithdrawComponent from "./Withdraw"
+
+
+
 
 const Pool = () => {
   // access client viem to get info
@@ -31,6 +35,24 @@ const Pool = () => {
   const [TotalCollected, setTotalCollected] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<Contributor[]>([]);
+  const [ownerAddress, setOwnerAddress] = useState<string>('');
+
+  const fetchOwnerAddress = async () => {
+    try {
+      const owner = await readContract({
+        address: contractAddress,
+        abi: abi,
+        functionName: 'owner',
+      }) as string;
+      setOwnerAddress(owner);
+    } catch (error) {
+      console.error('Error fetching owner address:', error);
+    }
+  }
+
+  console.log('ownerAddress', ownerAddress)
+  console.log('curent account id ', address)
+
   // get all data
   const getDatas = async () => {
     if (isConnected) {
@@ -87,12 +109,13 @@ const Pool = () => {
   };
 
   useEffect(() => {
-    getDatas(); // if adress changed
+    getDatas();
+    fetchOwnerAddress(); // if adress changed
   }, [address]);
 
   return (
     <>
-      {isConnected ? (
+      {isConnected && address ? (
         <>
           <Progression
             isLoading={isLoading}
@@ -100,13 +123,24 @@ const Pool = () => {
             goal={goal}
             totalCollected={TotalCollected}
           />
-          <Contribute getDatas={getDatas} />
-          <Refund
-            getDatas={getDatas}
+
+
+
+          {ownerAddress.toLowerCase() === address.toLowerCase() ? (<WithdrawComponent getDatas={getDatas}
             end={end}
             goal={goal}
-            totalCollected={TotalCollected}
-          />
+            totalCollected={TotalCollected} />) : (
+            <>
+              <Contribute getDatas={getDatas} />
+              <Refund
+                getDatas={getDatas}
+                end={end}
+                goal={goal}
+                totalCollected={TotalCollected}
+              />
+            </>)}
+
+
           <Contributors events={events} />
         </>
       ) : (

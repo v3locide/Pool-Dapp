@@ -65,7 +65,7 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
       <Flex mt="1rem">
         {totalCollected !== undefined && end !== undefined ? (
           parseInt(totalCollected) < parseInt(goal) &&
-          Date.now() > parseDate(end).getTime() ? (
+            Date.now() > parseDate(end).getTime() ? (
             <Button
               colorScheme="red"
               size="lg"

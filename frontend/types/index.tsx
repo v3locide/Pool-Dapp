@@ -29,3 +29,10 @@ export interface RefundProps {
   goal: string;
   totalCollected: string;
 }
+
+export interface WithdrawProps {
+  getDatas: () => void;
+  end: string;
+  goal: string;
+  totalCollected: string;
+}
