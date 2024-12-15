@@ -1,0 +1,89 @@
+{
+  "extends": [
+    "eslint:recommended", // Use ESLint's recommended set of rules
+    "plugin:@typescript-eslint/recommended" // Include TypeScript plugin recommended rules
+  ],
+  "env": {
+    "browser": true, // Set up browser environment
+    "node": true, // Set up Node.js environment
+    "es2021": true // Enable support for ECMAScript 2021 features
+  },
+  "parser": "@typescript-eslint/parser", // Use the TypeScript parser
+  "parserOptions": {
+    "ecmaVersion": 2021, // Support ECMAScript 2021
+    "sourceType": "module", // Allow the usage of import/export
+    "ecmaFeatures": {
+      "jsx": true // Enable parsing of JSX syntax
+    }
+  },
+  "plugins": [
+    "@typescript-eslint" // Use the TypeScript ESLint plugin
+  ],
+  "rules": {
+    // Formatting and code quality
+    "no-console": "warn", // Warn about console.log and other console methods
+    "no-unused-vars": "warn", // Warn about unused variables
+    "no-trailing-spaces": "error", // Disallow trailing spaces at the end of lines
+    "semi": ["error", "always"], // Enforce semicolons at the end of statements
+    "quotes": ["error", "double"], // Enforce double quotes for strings
+    "curly": ["error", "all"], // Require curly braces for all control structures
+    "no-magic-numbers": [
+      "warn",
+      {
+        // Warn about magic numbers (numbers without explanation)
+        "ignoreArrayIndexes": true, // Ignore array indexes
+        "ignore": [0, 1] // Ignore numbers 0 and 1
+      }
+    ],
+    "no-mixed-spaces-and-tabs": "error", // Disallow mixed spaces and tabs for indentation
+    "space-before-blocks": "error", // Enforce space before blocks (e.g., if, function, etc.)
+    "comma-dangle": ["warn", "always-multiline"], // Require trailing commas in multi-line objects or arrays
+
+    // Best practices
+    "eqeqeq": "error", // Enforce strict equality (===, !==)
+    "consistent-return": "error", // Enforce consistent return statements (either always or never)
+    "no-alert": "warn", // Warn about using alert, confirm, and prompt
+    "no-eval": "error", // Disallow the use of eval()
+    "no-new": "error", // Disallow using `new` for side-effects
+    "no-implicit-globals": "error", // Disallow implicit global variables (e.g., by accident)
+
+    // Code readability
+    "brace-style": ["error", "1tbs"], // Enforce one true brace style (1TBS) for braces
+    "max-len": [
+      "warn",
+      {
+        // Warn about lines that are too long
+        "code": 100, // Maximum line length is 80 characters
+        "ignoreUrls": true, // Don't count URLs against the max line length
+        "ignoreComments": true // Don't count comments against the max line length
+      }
+    ],
+    "no-multi-spaces": "error", // Disallow multiple spaces in a row
+    "no-multi-assign": "error", // Disallow multiple assignments in a single statement
+
+    // Variables
+    "no-var": "error", // Disallow usage of `var` (prefer `let` or `const`)
+    "prefer-const": "error", // Prefer `const` for variables that are never reassigned
+    "no-undef": "error", // Disallow the use of undeclared variables
+    "no-shadow": "error", // Disallow variable declarations that shadow variables in the outer scope
+    "no-unused-expressions": "error", // Disallow unused expressions (like assignments or function calls that are not used)
+
+    // Function-related rules
+    "no-duplicate-imports": "error", // Disallow duplicate imports
+    "consistent-this": ["error", "self"], // Enforce consistent variable names for `this` (like `self` or `that`)
+
+    // Potential errors
+    "no-unsafe-finally": "error", // Disallow control flow statements in finally blocks
+    "no-empty-function": "warn", // Warn about empty functions
+    "no-empty": "error", // Disallow empty blocks (if, else, etc.)
+    "no-unreachable": "error", // Disallow unreachable code after a return, throw, continue, or break statement
+
+    // Style
+    "camelcase": "error", // Enforce camelCase naming convention
+    "no-useless-escape": "warn", // Warn about unnecessary escape sequences in strings
+    "no-mixed-operators": "error", // Disallow mixing different operators (e.g., `+` and `*`)
+    "object-shorthand": "error", // Enforce the use of shorthand syntax for object properties
+    "array-callback-return": "error", // Enforce return statements in array callbacks
+    "no-magic-numbers": "warn" // Warn about magic numbers (e.g., `const PI = 3.14;`)
+  }
+}

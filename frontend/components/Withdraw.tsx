@@ -1,17 +1,24 @@
+"use client";
+
 import { Flex, Text, Button, Heading, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { abi, contractAddress } from "@/constants";
-import { prepareWriteContract, writeContract, waitForTransaction } from "@wagmi/core";
-import { readContract } from "@wagmi/core"; // For fetching contract data
-import { useAccount } from "wagmi";
+import {
+  prepareWriteContract,
+  writeContract,
+  waitForTransaction,
+} from "@wagmi/core";
 import { WithdrawProps } from "@/types";
 
-
-const WithdrawComponent = ({ getDatas, end, goal, totalCollected }: WithdrawProps) => {
+const WithdrawComponent = ({
+  getDatas,
+  end,
+  goal,
+  totalCollected,
+}: WithdrawProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   // Fetch the owner's address
-
 
   const handleWithdraw = async () => {
     try {
@@ -20,7 +27,7 @@ const WithdrawComponent = ({ getDatas, end, goal, totalCollected }: WithdrawProp
       // Prepare the transaction for the withdraw function
       const { request } = await prepareWriteContract({
         address: contractAddress,
-        abi: abi,
+        abi,
         functionName: "withdraw",
       });
 
@@ -41,12 +48,12 @@ const WithdrawComponent = ({ getDatas, end, goal, totalCollected }: WithdrawProp
         duration: 4000,
         isClosable: true,
       });
-    } catch (error: any) {
-
+    } catch (error) {
       // Show error toast notification
+      // TODO: write error interfaces with proper messages.
       toast({
         title: "Error",
-        description: `An error occurred: ${error.message || "Unknown error"}`,
+        description: `An error occurred: ${error || "Unknown error"}`,
         status: "error",
         duration: 4000,
         isClosable: true,
@@ -56,18 +63,19 @@ const WithdrawComponent = ({ getDatas, end, goal, totalCollected }: WithdrawProp
     }
   };
 
-  let parseDate = (date: string) => {
-    let d = date.split("/");
+  const parseDate = (date: string) => {
+    const d = date.split("/");
 
     return new Date(d[2] + "/" + d[1] + "/" + d[0]);
   };
-  // for testing you need to delete && Date.now() > parseDate(end).getTime() from the condition 
+  // for testing you need to delete && Date.now() > parseDate(end).getTime() from the condition
   return (
     <>
       <Heading mt="2rem">Withdraw</Heading>
       <Flex mt="1rem">
         {totalCollected !== undefined && end !== undefined ? (
-          parseInt(totalCollected) >= parseInt(goal) && Date.now() > parseDate(end).getTime() ? (
+          parseInt(totalCollected) >= parseInt(goal) &&
+          Date.now() > parseDate(end).getTime() ? (
             <Button
               colorScheme="blue"
               size="lg"

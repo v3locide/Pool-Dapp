@@ -1,12 +1,7 @@
-"use Client";
-//constants and types
-import { contractAddress, abi } from "@/constants";
+"use client";
+
 import { ProgressionProps } from "@/types";
 
-// ReactJs
-import { useState } from "react";
-//wagmi
-import { useAccount } from "wagmi";
 //chakraUI
 import { Text, Progress, Heading, Spinner } from "@chakra-ui/react";
 // Viem
@@ -18,8 +13,6 @@ const Progression = ({
   goal,
   totalCollected,
 }: ProgressionProps) => {
-  const { address, isConnected } = useAccount();
-
   return (
     <>
       {isLoading ? (

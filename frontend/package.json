@@ -6,8 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc-build": "node --no-warnings=ExperimentalWarning --loader ts-node/esm tsc-build.ts"
   },
+  "type": "module",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
@@ -24,6 +26,9 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5"
+    "eslint": "9.17.0",
+    "eslint-config-next": "15.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   }
 }

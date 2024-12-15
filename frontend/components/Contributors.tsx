@@ -4,7 +4,7 @@
 import { Flex, Heading, Card, CardBody, Text } from "@chakra-ui/react";
 
 // Viem
-import { formatEther, parseEther } from "viem";
+import { formatEther } from "viem";
 
 // Types
 import { ContributorsProps } from "@/types";

@@ -1,4 +1,7 @@
 "use client";
+
+import React from "react";
+
 import "@rainbow-me/rainbowkit/styles.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";

@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 
 //Wagi get wallet informations (adresse,is connected or not)
 import { useAccount, usePublicClient } from "wagmi";
-import { readContract, watchContractEvent } from "@wagmi/core";
+import { readContract } from "@wagmi/core";
 //viem
-import { Log, parseAbiItem } from "viem";
+import { parseAbiItem } from "viem";
 
 // chakraUI
 import { Alert, AlertIcon } from "@chakra-ui/react";
@@ -20,10 +20,7 @@ import Progression from "./Progression";
 import Contribute from "./Contribute";
 import Contributors from "./Contributors";
 import Refund from "./Refund";
-import WithdrawComponent from "./Withdraw"
-
-
-
+import WithdrawComponent from "./Withdraw";
 
 const Pool = () => {
   // access client viem to get info
@@ -35,23 +32,23 @@ const Pool = () => {
   const [TotalCollected, setTotalCollected] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<Contributor[]>([]);
-  const [ownerAddress, setOwnerAddress] = useState<string>('');
+  const [ownerAddress, setOwnerAddress] = useState<string>("");
 
   const fetchOwnerAddress = async () => {
     try {
-      const owner = await readContract({
+      const owner = (await readContract({
         address: contractAddress,
-        abi: abi,
-        functionName: 'owner',
-      }) as string;
+        abi,
+        functionName: "owner",
+      })) as string;
       setOwnerAddress(owner);
     } catch (error) {
-      console.error('Error fetching owner address:', error);
+      console.error("Error fetching owner address:", error);
     }
-  }
+  };
 
-  console.log('ownerAddress', ownerAddress)
-  console.log('curent account id ', address)
+  console.log("ownerAddress", ownerAddress);
+  console.log("curent account id ", address);
 
   // get all data
   const getDatas = async () => {
@@ -59,33 +56,37 @@ const Pool = () => {
       setIsLoading(true);
 
       // Get End date of the Pool from the blockchain
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let data: any = await readContract({
         address: contractAddress,
-        abi: abi,
+        abi,
         functionName: "end",
       });
+
       // Date formating
-      let date = new Date(parseInt(data) * 1000);
-      let day = date.getDate();
-      let month = date.getMonth() + 1;
-      let year = date.getFullYear();
-      let endDate: string = day + "/" + month + "/" + year;
+      const date = new Date(parseInt(data) * 1000);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const endDate: string = day + "/" + month + "/" + year;
       setEnd(endDate);
+
       //get Goal //format bigInt
       data = await readContract({
         address: contractAddress,
-        abi: abi,
+        abi,
         functionName: "goal",
       });
       setGoal(data.toString());
+
       //get TotalCollected //format bigInt
       data = await readContract({
         address: contractAddress,
-        abi: abi,
+        abi,
         functionName: "totalCollected",
       });
       setTotalCollected(data.toString());
-      // Get events
+
       // Get Events
       const ContributeLogs = await client.getLogs({
         address: contractAddress,
@@ -124,12 +125,14 @@ const Pool = () => {
             totalCollected={TotalCollected}
           />
 
-
-
-          {ownerAddress.toLowerCase() === address.toLowerCase() ? (<WithdrawComponent getDatas={getDatas}
-            end={end}
-            goal={goal}
-            totalCollected={TotalCollected} />) : (
+          {ownerAddress.toLowerCase() === address.toLowerCase() ? (
+            <WithdrawComponent
+              getDatas={getDatas}
+              end={end}
+              goal={goal}
+              totalCollected={TotalCollected}
+            />
+          ) : (
             <>
               <Contribute getDatas={getDatas} />
               <Refund
@@ -138,8 +141,8 @@ const Pool = () => {
                 goal={goal}
                 totalCollected={TotalCollected}
               />
-            </>)}
-
+            </>
+          )}
 
           <Contributors events={events} />
         </>

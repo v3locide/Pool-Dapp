@@ -1,17 +1,11 @@
 "use client";
 
 // ChakraUI
-import { Flex, Text, Input, Button, Heading, useToast } from "@chakra-ui/react";
-
-// ReactJs
-import { useState } from "react";
+import { Flex, Text, Button, Heading, useToast } from "@chakra-ui/react";
 
 // Constants and Types
 import { contractAddress, abi } from "@/constants";
 import { RefundProps } from "@/types";
-
-// Viem
-import { parseEther } from "viem";
 
 // Wagmi
 import {
@@ -27,13 +21,15 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
     try {
       const { request } = await prepareWriteContract({
         address: contractAddress,
-        abi: abi,
+        abi,
         functionName: "refund",
       });
       const { hash } = await writeContract(request);
       const data = await waitForTransaction({
-        hash: hash,
+        hash,
       });
+
+      console.log("Received data: ", data);
       await getDatas();
       toast({
         title: "Congratulations",
@@ -42,10 +38,11 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
         duration: 4000,
         isClosable: true,
       });
-    } catch (e: any) {
+    } catch (e) {
+      //TODO: write error interfaces with proper messages.
       toast({
         title: "Error",
-        description: `An error occured: ${e.message}`,
+        description: `An error occured: ${e}`,
         status: "error",
         duration: 4000,
         isClosable: true,
@@ -53,8 +50,8 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
     }
   };
 
-  let parseDate = (date: string) => {
-    let d = date.split("/");
+  const parseDate = (date: string) => {
+    const d = date.split("/");
 
     return new Date(d[2] + "/" + d[1] + "/" + d[0]);
   };
@@ -65,7 +62,7 @@ const Refund = ({ getDatas, end, goal, totalCollected }: RefundProps) => {
       <Flex mt="1rem">
         {totalCollected !== undefined && end !== undefined ? (
           parseInt(totalCollected) < parseInt(goal) &&
-            Date.now() > parseDate(end).getTime() ? (
+          Date.now() > parseDate(end).getTime() ? (
             <Button
               colorScheme="red"
               size="lg"

@@ -1,19 +1,16 @@
 "use client";
 
 //chakraUi
-import { Flex, Text, Input, Button, Heading, useToast } from "@chakra-ui/react";
-//Viem
-import { ParseAbiItem, Log } from "viem";
+import { Flex, Input, Button, Heading, useToast } from "@chakra-ui/react";
+
 //React
 import { useState } from "react";
-//wagmi
-import { useAccount, usePublicClient } from "wagmi";
-import { readContract, watchContractEvent } from "@wagmi/core"; // get goal ,end ,total ,events
 
 //Constants and Types
 import { contractAddress, abi } from "@/constants";
 import { parseEther } from "viem";
 import { ContributeProps } from "@/types";
+
 //info de contrat
 import {
   prepareWriteContract,
@@ -21,25 +18,29 @@ import {
   waitForTransaction,
 } from "@wagmi/core";
 
+
 const Contribute = ({ getDatas }: ContributeProps) => {
   const toast = useToast();
   const [amount, setAmount] = useState<string>("");
   const contribute = async () => {
     try {
       //convert ehter on wei
-      let money = parseEther(amount);
+      const money = parseEther(amount);
       //preparation to write contract
       const { request } = await prepareWriteContract({
         address: contractAddress,
-        abi: abi,
+        abi,
         functionName: "contribute",
         value: money,
       });
       // get transaction hash
       const { hash } = await writeContract(request);
       const data = await waitForTransaction({
-        hash: hash,
+        hash,
       });
+
+      console.log("Received data: ", data);
+
       setAmount(""); // default value  after submit
       await getDatas(); // refresh the value
       toast({
@@ -49,11 +50,11 @@ const Contribute = ({ getDatas }: ContributeProps) => {
         duration: 4000,
         isClosable: true,
       });
-    } catch (e: any) {
-      console.log(e.message);
+    } catch (e) {
+      // TODO: write custom error interfaces with proper messages.
       toast({
         title: "Error",
-        description: `An error accured: ${e.message}.`,
+        description: `An error accured: ${e}.`,
         status: "error",
         duration: 4000,
         isClosable: true,
