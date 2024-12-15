@@ -44,23 +44,32 @@ contract Pool is Ownable {
 
         emit Contribute(msg.sender, msg.value);
     }
-
+    //for testing  u need to delete the condition 
     /// @notice Allows the owner to withdraw the gains of the Pool.
     function withdraw() external onlyOwner {
+        
         if (block.timestamp < end || totalCollected < goal) {
             revert CollectNotFinished();
         }
-        (bool sent, ) = msg.sender.call{value: address(this).balance}("");
-        if (!sent) {
-            revert FailedToSendEther();
-        }
+        uint256 amount = address(this).balance;
+
+    // Reset totalCollected to 0
+        totalCollected = 0;
+
+    // Withdraw the funds to the owner
+         (bool sent, ) = msg.sender.call{value: amount}("");
+         if (!sent) {
+             revert FailedToSendEther();
+         }
+
+        
     }
 
     /// @notice Allows the participants to get their money back.
     function refund() external {
         if (block.timestamp < end) {
             revert CollectNotFinished();
-        }
+        } 
         if (totalCollected >= goal) {
             revert GoalAlreadyReached();
         }
