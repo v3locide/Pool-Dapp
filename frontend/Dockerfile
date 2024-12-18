@@ -1,5 +1,5 @@
 # Stage 1: Build the Next.js app
-FROM node:lts-alpine AS builder
+FROM node:22 AS builder
 
 WORKDIR /app
 COPY package*.json ./
@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Run the Next.js app server
-FROM node:lts-alpine
+FROM node:22
 
 WORKDIR /app
 COPY --from=builder /app ./
