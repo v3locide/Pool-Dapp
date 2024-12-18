@@ -81,6 +81,9 @@ pipeline{
                             sh '''
                             sleep 3 
                             kubectl apply -f contract-script-deployment.yaml
+			    sleep 5
+			    kubectl delete -f contract-script-deployment.yaml
+			    sleep 3
                             '''
                         }
                     }
