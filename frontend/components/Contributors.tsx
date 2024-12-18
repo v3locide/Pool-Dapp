@@ -4,7 +4,7 @@
 import { Flex, Heading, Card, CardBody, Text } from "@chakra-ui/react";
 
 // uuid
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 // Viem
 import { formatEther } from "viem";
