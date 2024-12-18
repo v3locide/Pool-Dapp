@@ -3,6 +3,9 @@
 // ChakraUI
 import { Flex, Heading, Card, CardBody, Text } from "@chakra-ui/react";
 
+// uuid
+import { v4 as uuidv4 } from 'uuid';
+
 // Viem
 import { formatEther } from "viem";
 
@@ -17,7 +20,7 @@ const Contributors = ({ events }: ContributorsProps) => {
       <Flex mt="1rem" direction="column">
         {events.map((event) => {
           return (
-            <Card mb=".5rem" key={crypto.randomUUID()}>
+            <Card mb=".5rem" key={uuidv4()}>
               <CardBody>
                 <Flex justifyContent="space-between" alignItems="center">
                   <Text>
