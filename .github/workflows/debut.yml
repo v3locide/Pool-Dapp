@@ -12,6 +12,12 @@ env:
   BRANCH_NAME: mech-testing
   
 jobs:
+  check-docker-net:
+    runs-on: ubuntu latest
+    steps:
+      - name: check docker net
+        run: |
+          docker network ls
   test-postgres:
     runs-on: ubuntu-latest
 
@@ -45,4 +51,4 @@ jobs:
           psql -h postgres -U user -d testdb -c '\l'
         env:
           PGPASSWORD: password
-
+    
