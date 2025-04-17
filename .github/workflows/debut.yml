@@ -1,0 +1,55 @@
+name: Debug
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+env:
+  WORKING_DIRECTORY: Client
+  TERRAFORM_MAIN_PATH: terraform/K8s  
+  BRANCH_NAME: mech-testing
+  
+jobs:
+  test-postgres:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ubuntu:22.04 # Or your custom image — just make sure it has or can install psql
+
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+    steps:
+      - name: Install PostgreSQL client
+        run: |
+          apt-get update
+          apt-get install -y postgresql-client netcat
+
+      - name: Wait for Postgres to be ready
+        run: |
+          for i in {1..10}; do
+            nc -zv postgres 5432 && echo "Postgres is up!" && break
+            echo "postgres:5432 - no response"
+            sleep 3
+          done
+
+      - name: Test connection with psql
+        run: |
+          psql -h postgres -U user -d testdb -c '\l'
+        env:
+          PGPASSWORD: password
+
