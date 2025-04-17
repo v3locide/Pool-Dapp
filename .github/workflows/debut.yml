@@ -41,6 +41,7 @@ jobs:
 
       - name: Test connection with psql
         run: |
+          cat /etc/resolv.conf
           psql -h postgres -U user -d testdb -c '\l'
         env:
           PGPASSWORD: password
