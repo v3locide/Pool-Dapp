@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ubuntu:22.04 # Or your custom image — just make sure it has or can install psql
+      image: docker.io/mohge/qcs-ubuntu:latest
 
     services:
       postgres:
